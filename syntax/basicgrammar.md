@@ -69,11 +69,11 @@ pipeline. This exit code can be "inverted" by prefixing an exclamation
 mark to the pipeline: An unsuccessful pipeline will exit "successful"
 and vice versa. In this example, the commands in the if stanza will be
 executed if the pattern "^root:" is **not** found in `/etc/passwd`:
-
-    if ! grep '^root:' /etc/passwd; then
-      echo "No root user defined... eh?"
-    fi
-
+```bash
+if ! grep '^root:' /etc/passwd; then
+  echo "No root user defined... eh?"
+fi
+```
 Yes, this is also a pipeline (although there is no pipe!), because the
 **exclamation mark to invert the exit code** can only be used in a
 pipeline. If `grep`'s exit code is 1 (FALSE) (the text was not found),
@@ -179,12 +179,16 @@ The definition is easy (one of many possibilities):
 which is usually used with the `{...; }` compound command, and thus
 looks like:
 
-    print_help() { echo "Sorry, no help available"; }
+```bash
+print_help() { echo "Sorry, no help available"; }
+```
 
 As above, a function definition can have any [compound
 command](basicgrammar#compound_commands) as a body. Structures like
 
-    countme() for ((x=1;x<=9;x++)); do echo $x; done
+```bash
+countme() for ((x=1;x<=9;x++)); do echo $x; done
+```
 
 are unusual, but perfectly valid, since the for loop construct is a
 compound command!
@@ -192,11 +196,13 @@ compound command!
 If **redirection** is specified, the redirection is not performed when
 the function is defined. It is performed when the function runs:
 
-    # this will NOT perform the redirection (at definition time)
-    f() { echo ok ; } > file
+```bash
+# this will NOT perform the redirection (at definition time)
+f() { echo ok ; } > file
 
-    # NOW the redirection will be performed (during EXECUTION of the function)
-    f
+# NOW the redirection will be performed (during EXECUTION of the function)
+f
+```
 
 Bash allows three equivalent forms of the function definition:
 
@@ -217,19 +223,21 @@ definition using **any** command (not just the compound command set).
 To execute a function like a regular shell script you put it together
 like this:
 
-    #!/bin/bash
-    # Add shebang
+```bash
+#!/bin/bash
+# Add shebang
 
-    mycmd()
-    {
-      # this $1 belongs to the function!
-      find / -iname "$1"
-    }
+mycmd()
+{
+  # this $1 belongs to the function!
+  find / -iname "$1"
+}
 
-    # this $1 belongs the script itself!
-    mycmd "$1" # Execute command immediately after defining function 
+# this $1 belongs the script itself!
+mycmd "$1" # Execute command immediately after defining function 
 
-    exit 0
+exit 0
+```
 
 **Just informational(1):**
 
@@ -248,9 +256,11 @@ a function:
 
 It is possible to create function names containing slashes:
 
-    /bin/ls() {
-      echo LS FAKE
-    }
+```bash
+/bin/ls() {
+  echo LS FAKE
+}
+```
 
 The elements of this name aren't subject to a path search.
 
@@ -280,21 +290,24 @@ Weird function names should not be used. Quote from the maintainer:
 
 FIXME more...
 
-------------------------------------------------------------------------
+---
 
 <u>A (very) simple command</u>
 
-    echo "Hello world..."
-
+```bash
+echo "Hello world..."
+```
 <u>All of the following are simple commands</u>
 
-    x=5
+```bash
+x=5
 
-    >tmpfile
+>tmpfile
 
-    {x}<"$x" _=${x=<(echo moo)} <&0$(cat <&"$x" >&2)
+{x}<"$x" _=${x=<(echo moo)} <&0$(cat <&"$x" >&2)
+```
 
-------------------------------------------------------------------------
+---
 
 <u>A common compound command</u>
 
@@ -311,9 +324,11 @@ FIXME more...
 
 Let's invert test command exit code, only one thing changes:
 
-    if ! [ -d /data/mp3 ]; then
-      cp mymusic.mp3 /data/mp3
-    fi
+```bash
+if ! [ -d /data/mp3 ]; then
+  cp mymusic.mp3 /data/mp3
+fi
+```
 
 - the [list](basicgrammar#lists) that `if` **checks** contains a
   [pipeline](basicgrammar#pipelines) now (because of the `!`)
